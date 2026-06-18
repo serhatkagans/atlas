@@ -1,0 +1,35 @@
+# ── Ortam değişkenleri ──────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Firebase gizli anahtarlar ────────────────────────────────────────
+firebase-adminsdk*.json
+*-firebase-adminsdk-*.json
+service-account*.json
+
+# ── Bağımlılıklar ────────────────────────────────────────────────────
+node_modules/
+
+# ── Firebase Emulator verileri ───────────────────────────────────────
+.firebase/
+firebase-debug.log
+firestore-debug.log
+storage-debug.log
+ui-debug.log
+
+# ── Derleme çıktıları ────────────────────────────────────────────────
+dist/
+build/
+.cache/
+
+# ── İşletim sistemi ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editör ───────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,50 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ─── Yardımcı fonksiyonlar ──────────────────────────────────────────────
+
+    // İzin verilen MIME türleri
+    function isValidImageType() {
+      return request.resource.contentType.matches('image/jpeg') ||
+             request.resource.contentType.matches('image/png')  ||
+             request.resource.contentType.matches('image/webp');
+    }
+
+    // Maksimum 5 MB (5 * 1024 * 1024 byte)
+    function isUnderSizeLimit() {
+      return request.resource.size <= 5 * 1024 * 1024;
+    }
+
+    // ─── Etkinlik görselleri: /events/{fileName} ────────────────────────────
+    match /events/{fileName} {
+      // Herkes onaylı görselleri okuyabilir
+      allow read: if true;
+
+      // Yükleme: tip ve boyut kontrolü
+      allow write: if isValidImageType() && isUnderSizeLimit();
+    }
+
+    // ─── Proje görselleri: /projects/{fileName} ─────────────────────────────
+    match /projects/{fileName} {
+      allow read: if true;
+      allow write: if isValidImageType() && isUnderSizeLimit();
+    }
+
+    // ─── Proje prompt dosyaları: /prompts/{fileName} ────────────────────────
+    // PDF veya metin dosyaları da kabul edilebilir (etik onay belgesi)
+    match /prompts/{fileName} {
+      allow read: if true;
+      allow write: if request.resource.size <= 5 * 1024 * 1024 &&
+                      (request.resource.contentType.matches('application/pdf') ||
+                       request.resource.contentType.matches('text/plain')      ||
+                       isValidImageType());
+    }
+
+    // ─── Diğer tüm yollar: erişim yok ──────────────────────────────────────
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

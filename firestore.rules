@@ -1,0 +1,71 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Yardımcı fonksiyonlar ──────────────────────────────────────────────
+
+    // Kullanıcının moderators koleksiyonunda kaydı var mı?
+    function isModerator() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/moderators/$(request.auth.uid));
+    }
+
+    // Gönderilen veride onaylandi alanı var mı?
+    function touchesOnaylandi() {
+      return request.resource.data.keys().hasAny(['onaylandi']);
+    }
+
+    // ─── events koleksiyonu ─────────────────────────────────────────────────
+    match /events/{eventId} {
+
+      // Herkes onaylandi==true kayıtları okuyabilir
+      allow read: if resource.data.onaylandi == true;
+
+      // Moderatörler her şeyi okuyabilir (admin panel için)
+      allow read: if isModerator();
+
+      // Anonim dahil herkes kayıt oluşturabilir,
+      // ANCAK onaylandi alanını true olarak set edemez
+      allow create: if
+        !touchesOnaylandi() ||
+        request.resource.data.onaylandi == false;
+
+      // Güncelleme: sadece moderatörler yapabilir
+      allow update: if isModerator();
+
+      // Silme: sadece moderatörler yapabilir
+      allow delete: if isModerator();
+    }
+
+    // ─── projects koleksiyonu ───────────────────────────────────────────────
+    match /projects/{projectId} {
+
+      allow read: if resource.data.onaylandi == true;
+      allow read: if isModerator();
+
+      allow create: if
+        !touchesOnaylandi() ||
+        request.resource.data.onaylandi == false;
+
+      allow update: if isModerator();
+      allow delete: if isModerator();
+    }
+
+    // ─── moderators koleksiyonu ─────────────────────────────────────────────
+    match /moderators/{userId} {
+
+      // Sadece moderatörler okuyabilir
+      allow read: if isModerator();
+
+      // Moderatör ekleme/silme: sadece mevcut moderatörler yapabilir
+      // (İlk moderatörü Firebase Console üzerinden ekleyin)
+      allow write: if isModerator();
+    }
+
+    // ─── Diğer tüm koleksiyonlar: erişim yok ───────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
