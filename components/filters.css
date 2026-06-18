@@ -1,0 +1,529 @@
+/**
+ * GençTek Atlas — Filtreleme & Arama Stilleri
+ * 
+ * Filtre arayüzünü, arama çubuğunu, özel şehir seçim kutusunu ve
+ * tema butonlarını hem masaüstünde hem de mobilde (bottom drawer) şık ve akıcı şekilde stillendirir.
+ */
+
+/* ── ANA KONTEYNER ────────────────────────────────────────────────── */
+
+.atlas-filters-container {
+  margin-bottom: 24px;
+  position: relative;
+  font-family: inherit;
+  --filters-bg: #181824;
+  --filters-bg-overlay: #1e1e2f;
+  --filters-border: rgba(255, 255, 255, 0.08);
+  --filters-text-primary: #f3f4f6;
+  --filters-text-secondary: #9ca3af;
+  --filters-accent: #3a86ff;
+  --filters-accent-rgb: 58, 134, 255;
+  --filters-radius: 12px;
+  --filters-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── MOBİL FİLTRE AÇMA BUTONU ───────────────────────────────────────── */
+
+.filters-mobile-toggle-btn {
+  display: none; /* Masaüstünde gizli */
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--filters-bg);
+  border: 1px solid var(--filters-border);
+  color: var(--filters-text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--filters-radius);
+  cursor: pointer;
+  transition: var(--filters-transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filters-mobile-toggle-btn:hover {
+  background: #1e1e2f;
+  border-color: var(--filters-accent);
+}
+
+.toggle-icon-wrap {
+  display: flex;
+  align-items: center;
+  color: var(--filters-text-secondary);
+  transition: var(--filters-transition);
+}
+
+.filters-mobile-toggle-btn:hover .toggle-icon-wrap {
+  color: var(--filters-accent);
+}
+
+/* Aktif filtre varken butonun vurgulanması */
+.filters-mobile-toggle-btn--active {
+  border-color: rgba(var(--filters-accent-rgb), 0.5);
+  background: rgba(var(--filters-accent-rgb), 0.05);
+}
+
+.active-filters-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--filters-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(var(--filters-accent-rgb), 0.4);
+}
+
+/* ── DRAWER ÜST BİLGİ VE KAPATMA BUTONU (MOBİLDE AÇILIR) ──────────────── */
+
+.filters-panel-header {
+  display: none; /* Masaüstünde gizli */
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--filters-border);
+}
+
+.filters-panel-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--filters-text-primary);
+  margin: 0;
+}
+
+.filters-drawer-close-btn {
+  background: none;
+  border: none;
+  color: var(--filters-text-secondary);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: var(--filters-transition);
+}
+
+.filters-drawer-close-btn:hover {
+  color: #ef4444;
+}
+
+/* ── FİLTRE PANEL GÖVDESİ (MASAÜSTÜ İÇİN STATİK KART) ────────────────── */
+
+.filters-panel-wrapper {
+  background: var(--filters-bg);
+  border: 1px solid var(--filters-border);
+  border-radius: var(--filters-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.filters-panel-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Filtre Elemanı Ortak Şablonu */
+.filter-element {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-element label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--filters-text-secondary);
+}
+
+/* ── ARAMA KUTUSU (TEXT SEARCH) ────────────────────────────────────── */
+
+.search-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--filters-text-muted, #6b7280);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+#atlas-search-input {
+  width: 100%;
+  padding: 12px 40px 12px 42px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--filters-border);
+  color: var(--filters-text-primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: var(--filters-transition);
+}
+
+#atlas-search-input:focus {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--filters-accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--filters-accent-rgb), 0.15);
+}
+
+.search-clear-inline-btn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--filters-text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: var(--filters-transition);
+}
+
+.search-clear-inline-btn:hover {
+  color: var(--filters-text-primary);
+}
+
+/* ── YAN YANA ALANLAR DÜZENİ ─────────────────────────────────────────── */
+
+.filters-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .filters-row-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* ── İL SEÇİM KUTUSU (ÖZEL ARAMALI DROPDOWN) ─────────────────────────── */
+
+.city-custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.city-select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--filters-border);
+  color: var(--filters-text-primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--filters-transition);
+  text-align: left;
+}
+
+.city-select-trigger:focus,
+.city-custom-select.open .city-select-trigger {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--filters-accent);
+  outline: none;
+}
+
+.chevron-icon {
+  display: flex;
+  align-items: center;
+  color: var(--filters-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.city-custom-select.open .chevron-icon {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menüsü */
+.city-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--filters-bg-overlay);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.city-custom-select.open .city-select-dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.city-search-box {
+  padding: 10px;
+  border-bottom: 1px solid var(--filters-border);
+}
+
+.city-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--filters-border);
+  color: var(--filters-text-primary);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.city-search-input:focus {
+  border-color: var(--filters-accent);
+  outline: none;
+}
+
+.city-select-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.city-dropdown-item {
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  color: var(--filters-text-secondary);
+  cursor: pointer;
+  transition: var(--filters-transition);
+}
+
+.city-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--filters-text-primary);
+}
+
+.city-dropdown-item.active {
+  background: rgba(var(--filters-accent-rgb), 0.15);
+  color: var(--filters-accent);
+  font-weight: 600;
+}
+
+/* ── FORMAT SEÇİM GRUBU (SEGMENTED CONTROL) ─────────────────────────── */
+
+.format-button-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--filters-border);
+  border-radius: 8px;
+  padding: 4px;
+  width: 100%;
+}
+
+.format-filter-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--filters-text-secondary);
+  padding: 8px 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--filters-transition);
+  text-align: center;
+}
+
+.format-filter-btn:hover {
+  color: var(--filters-text-primary);
+}
+
+.format-filter-btn.active {
+  background: var(--filters-accent);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(var(--filters-accent-rgb), 0.35);
+}
+
+/* ── TEMA FİLTRESİ (ROZET BUTONLARI) ────────────────────────────────── */
+
+.themes-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.theme-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--filters-border);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--filters-text-secondary);
+  cursor: pointer;
+  transition: var(--filters-transition);
+}
+
+.theme-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: var(--filters-transition);
+}
+
+.theme-filter-btn:hover {
+  border-color: var(--theme-color, var(--filters-accent));
+  color: var(--filters-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.theme-filter-btn.active {
+  background: var(--theme-color, var(--filters-accent));
+  border-color: var(--theme-color, var(--filters-accent));
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 8px var(--theme-color);
+}
+
+/* Aktif tema butonunun içindeki noktayı beyaz yaparak kontrastı koru */
+.theme-filter-btn.active .theme-dot {
+  background-color: #ffffff !important;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ── FİLTRE ALT BİLGİ & SIFIRLAMA (FOOTER) ───────────────────────────── */
+
+.filters-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--filters-border);
+  padding-top: 18px;
+  margin-top: 10px;
+}
+
+.results-summary {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--filters-text-secondary);
+}
+
+.filters-reset-btn {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--filters-transition);
+}
+
+.filters-reset-btn:not(:disabled):hover {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #ef4444;
+}
+
+.filters-reset-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  color: var(--filters-text-secondary);
+  border-color: var(--filters-border);
+}
+
+/* ── MOBİL UYUMLULUK (RESPONSIVE & DRAWER GÖRÜNÜMÜ) ──────────────────── */
+
+@media (max-width: 768px) {
+  /* Mobil butonu görünür yap */
+  .filters-mobile-toggle-btn {
+    display: flex;
+  }
+
+  /* Drawer Overlay (Arka plan bulanıklaştırma perdesi) */
+  .filters-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .filters-drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Filtre Panelini Bottom Drawer'a Dönüştür */
+  .filters-panel-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--filters-bg-overlay);
+    border: none;
+    border-radius: 20px 20px 0 0;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    
+    /* Aşağıda gizli tut, active olunca yukarı kaydır */
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .filters-panel-wrapper.open {
+    transform: translateY(0);
+  }
+
+  .filters-panel-header {
+    display: flex;
+  }
+
+  .filters-panel-body {
+    overflow-y: auto;
+    padding: 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); /* iOS güvenli alan desteği */
+    gap: 18px;
+  }
+
+  .filters-panel-footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--filters-bg-overlay);
+    padding-top: 14px;
+    margin-top: 4px;
+    z-index: 5;
+  }
+}
