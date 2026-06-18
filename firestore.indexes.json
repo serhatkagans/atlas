@@ -1,0 +1,29 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "onaylandi", "order": "ASCENDING" },
+        { "fieldPath": "tarih",     "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "events",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "onaylandi", "order": "ASCENDING" },
+        { "fieldPath": "il",        "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "projects",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "onaylandi", "order": "ASCENDING" },
+        { "fieldPath": "olusturulmaTarihi", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
