@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GençTek Atlas — Gençlik ve Teknoloji Ekosistemi</title>
+  <meta name="description" content="GençTek Atlas, Türkiye genelindeki gençlik teknoloji etkinliklerini ve projelerini harita ve liste üzerinden takip etmenizi sağlayan etkileşimli bir platformdur.">
+  
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Linkleri -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Diğer bileşenlerin stilleri (Mevcut olmama ihtimaline karşı dinamik yüklenebilir veya statik bağlanabilir) -->
+  <link rel="stylesheet" href="./components/map.css" onerror="this.style.display='none'">
+  <link rel="stylesheet" href="./components/filters.css" onerror="this.style.display='none'">
+  <link rel="stylesheet" href="./components/cards.css" onerror="this.style.display='none'">
+  <link rel="stylesheet" href="./components/forms.css" onerror="this.style.display='none'">
+  <link rel="stylesheet" href="./components/moderation.css" onerror="this.style.display='none'">
+  <link rel="stylesheet" href="./components/detail.css" onerror="this.style.display='none'">
+</head>
+<body>
+
+  <!-- Global Yükleme Ekranı -->
+  <div id="loading-overlay" role="status" aria-label="Atlas Yükleniyor">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Atlas yükleniyor…</span>
+  </div>
+
+  <!-- Üst Navigasyon Barı -->
+  <nav class="navbar" role="navigation" aria-label="Ana Menü">
+    <div class="navbar-container">
+      <!-- Sol: Logo & Başlık -->
+      <div class="nav-left">
+        <a href="#" class="logo-link">
+          <div class="logo-icon">G</div>
+          <div class="logo-text">GençTek <span>Atlas</span></div>
+        </a>
+      </div>
+      
+      <!-- Orta: Sekmeler -->
+      <div class="nav-center">
+        <button class="nav-tab active" data-target="view-map">🗺️ Harita</button>
+        <button class="nav-tab" data-target="view-list">📋 Liste & Keşfet</button>
+        <button class="nav-tab" data-target="view-add-event">📅 Etkinlik Ekle</button>
+        <button class="nav-tab" data-target="view-add-project">🚀 Proje Ekle</button>
+      </div>
+
+      <!-- Sağ: Moderasyon (Sadece Giriş Yapılmışsa) -->
+      <div class="nav-right">
+        <button class="nav-tab" id="nav-mod-tab" data-target="view-moderation" style="display: none;">🔑 Moderasyon</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- İstatistik Kartları Şeridi -->
+  <section class="stats-section" aria-label="Canlı İstatistikler">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <span class="stat-label">Onaylı Etkinlik</span>
+          <strong class="stat-value" id="stat-events">—</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚀</div>
+        <div class="stat-info">
+          <span class="stat-label">Onaylı Proje</span>
+          <strong class="stat-value" id="stat-projects">—</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📍</div>
+        <div class="stat-info">
+          <span class="stat-label">Aktif İl Sayısı</span>
+          <strong class="stat-value" id="stat-cities">—</strong>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-info">
+          <span class="stat-label">Popüler Tema</span>
+          <strong class="stat-value" id="stat-popular-theme">—</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ana İçerik Alanı -->
+  <main class="main-content-area">
+    
+    <!-- GÖRÜNÜM: HARİTA -->
+    <section id="view-map" class="app-view active" aria-label="Harita Görünümü">
+      <div id="map-container">
+        <div class="map-placeholder">
+          <div class="loading-spinner"></div>
+          <span>Türkiye Haritası yükleniyor...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GÖRÜNÜM: LİSTE -->
+    <section id="view-list" class="app-view" aria-label="Liste Görünümü">
+      <!-- Filtreler Paneli (filters.js buraya enjekte eder) -->
+      <aside id="filters-container"></aside>
+      
+      <!-- Kartlar Listesi (cards.js buraya enjekte eder) -->
+      <div id="list-container">
+        <div class="map-placeholder">
+          <div class="loading-spinner"></div>
+          <span>İçerikler yükleniyor...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GÖRÜNÜM: ETKİNLİK EKLE -->
+    <section id="view-add-event" class="app-view" aria-label="Etkinlik Kayıt Formu">
+      <div id="event-form-container" class="form-wrapper">
+        <div class="map-placeholder">Form yükleniyor...</div>
+      </div>
+    </section>
+
+    <!-- GÖRÜNÜM: PROJE EKLE -->
+    <section id="view-add-project" class="app-view" aria-label="Proje Kayıt Formu">
+      <div id="project-form-container" class="form-wrapper">
+        <div class="map-placeholder">Form yükleniyor...</div>
+      </div>
+    </section>
+
+    <!-- GÖRÜNÜM: MODERASYON -->
+    <section id="view-moderation" class="app-view" aria-label="Moderasyon Kontrol Paneli">
+      <div id="moderation-container" class="form-wrapper">
+        <div class="map-placeholder">Kontrol paneli yükleniyor...</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Alt Bilgi (Footer) -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-logo">GençTek Derneği</span>
+        <span>&copy; 2026. Tüm hakları saklıdır.</span>
+      </div>
+      <div class="footer-center">
+        <a href="https://github.com/serhatkagans/atlas" target="_blank" rel="noopener noreferrer" class="footer-github-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub Deposu
+        </a>
+        <span>MIT Lisansı ile korunmaktadır.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Firebase v10.12.2 Modular SDK (CDN) ─────────────────────────── -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { 
+      getFirestore, collection, query, where, getDocs, getDoc, doc, addDoc, updateDoc, serverTimestamp 
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { 
+      getStorage, ref, uploadBytes, getDownloadURL 
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+    import { 
+      getAuth, signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js';
+
+    // ── Firebase Yapılandırması ─────────────────────────────────────
+    const firebaseConfig = {
+      apiKey:            "AIzaSyB4LDanE4IryqEwW-kP_z_Q0a1sDmdvQjs",
+      authDomain:        "genctek-atlas.firebaseapp.com",
+      projectId:         "genctek-atlas",
+      storageBucket:     "genctek-atlas.firebasestorage.app",
+      messagingSenderId: "627647479769",
+      appId:             "1:627647479769:web:5ecbe009f9ed6d028f63c8"
+    };
+
+    const app       = initializeApp(firebaseConfig);
+    const db        = getFirestore(app);
+    const storage   = getStorage(app);
+    const auth      = getAuth(app);
+    const analytics = getAnalytics(app);
+
+    // Genişletilmiş Atlas nesnesini diğer modüllere aç
+    window.Atlas = { 
+      app, db, storage, auth, analytics,
+      collection, query, where, getDocs, getDoc, doc, addDoc, updateDoc, serverTimestamp,
+      ref, uploadBytes, getDownloadURL,
+      signInAnonymously, signInWithEmailAndPassword, signOut, onAuthStateChanged
+    };
+
+    // ── Küresel Modül Yükleme Katmanı (Hata Önleme Kalkanı) ───────────
+    // Eşzamanlı/ayrı branch'lerde diğer dosyalar henüz mevcut olmayabilir.
+    let mapModule = null;
+    let filtersModule = null;
+    let cardsModule = null;
+    let formsModule = null;
+    let moderationModule = null;
+    let detailModule = null;
+
+    async function loadModulesSilently() {
+      try { mapModule = await import('./components/map.js'); } catch(e) { console.warn('map.js bulunamadı.'); }
+      try { filtersModule = await import('./components/filters.js'); } catch(e) { console.warn('filters.js bulunamadı.'); }
+      try { cardsModule = await import('./components/cards.js'); } catch(e) { console.warn('cards.js bulunamadı.'); }
+      try { formsModule = await import('./components/forms.js'); } catch(e) { console.warn('forms.js bulunamadı.'); }
+      try { moderationModule = await import('./components/moderation.js'); } catch(e) { console.warn('moderation.js bulunamadı.'); }
+      try { detailModule = await import('./components/detail.js'); } catch(e) { console.warn('detail.js bulunamadı.'); }
+    }
+
+    // ── Canlı İstatistikler ─────────────────────────────────────────
+    async function loadLiveStats() {
+      const [eventsSnap, projectsSnap] = await Promise.all([
+        getDocs(query(collection(db, 'events'),   where('onaylandi', '==', true))),
+        getDocs(query(collection(db, 'projects'), where('onaylandi', '==', true)))
+      ]);
+
+      const cities = new Set(eventsSnap.docs.map(d => d.data().il).filter(Boolean));
+      
+      // En çok etkinliği olan tema adı tespiti
+      let mostPopularThemeName = '—';
+      if (eventsSnap.size > 0) {
+        const themeCounts = {};
+        eventsSnap.docs.forEach((d) => {
+          const themeId = d.data().tema;
+          if (themeId) {
+            themeCounts[themeId] = (themeCounts[themeId] || 0) + 1;
+          }
+        });
+        
+        let maxCount = 0;
+        let maxThemeId = null;
+        for (const [themeId, count] of Object.entries(themeCounts)) {
+          if (count > maxCount) {
+            maxCount = count;
+            maxThemeId = themeId;
+          }
+        }
+        
+        if (maxThemeId) {
+          try {
+            const themesRes = await fetch('./data/themes.json');
+            const themes = await themesRes.json();
+            const foundTheme = themes.find((t) => t.id === maxThemeId);
+            mostPopularThemeName = foundTheme ? foundTheme.name : maxThemeId;
+          } catch (e) {
+            mostPopularThemeName = maxThemeId;
+          }
+        }
+      }
+
+      document.getElementById('stat-events').textContent   = eventsSnap.size;
+      document.getElementById('stat-projects').textContent = projectsSnap.size;
+      document.getElementById('stat-cities').textContent   = cities.size;
+      document.getElementById('stat-popular-theme').textContent = mostPopularThemeName;
+    }
+
+    // ── Sekme Yönetimi (Tab Routing) ──────────────────────────────────
+    let activeTab = 'view-map';
+    const tabs = document.querySelectorAll('.nav-tab:not(#nav-mod-tab)');
+    const modTab = document.getElementById('nav-mod-tab');
+    const allViews = document.querySelectorAll('.app-view');
+
+    function switchView(targetViewId) {
+      activeTab = targetViewId;
+      
+      // Tab butonlarını güncelle
+      tabs.forEach(tab => {
+        const isTarget = tab.getAttribute('data-target') === targetViewId;
+        tab.classList.toggle('active', isTarget);
+      });
+      if (modTab) {
+        const isTarget = modTab.getAttribute('data-target') === targetViewId;
+        modTab.classList.toggle('active', isTarget);
+      }
+
+      // Görünümleri güncelle
+      allViews.forEach(view => {
+        view.classList.toggle('active', view.id === targetViewId);
+      });
+
+      // Lazy Loading / Görünüm tetikleyicileri
+      handleViewActivation(targetViewId);
+    }
+
+    // Olay dinleyicileri bağla
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => switchView(tab.getAttribute('data-target')));
+    });
+    if (modTab) {
+      modTab.addEventListener('click', () => switchView(modTab.getAttribute('data-target')));
+    }
+
+    // ── Lazy Loading Bileşen Başlatıcıları ──────────────────────────────
+    let mapInitialized = false;
+    let listTabInitialized = false;
+    let eventFormRendered = false;
+    let projectFormRendered = false;
+    let moderationInitialized = false;
+
+    let allListEvents = [];
+    let allListProjects = [];
+
+    async function handleViewActivation(viewId) {
+      if (viewId === 'view-map') {
+        if (mapModule && !mapInitialized) {
+          mapModule.initMap('map-container', (cityId) => {
+            // Haritadan bir şehre tıklanınca Liste sekmesine geçip filtrele
+            switchView('view-list');
+            window.location.hash = `#il=${cityId}`;
+          });
+          mapInitialized = true;
+        }
+      } 
+      
+      else if (viewId === 'view-list') {
+        if (cardsModule && filtersModule && !listTabInitialized) {
+          // Önce tüm verileri çek
+          allListEvents = await cardsModule.fetchApprovedEvents();
+          allListProjects = await cardsModule.fetchApprovedProjects();
+
+          // Filtre panelini kur
+          await filtersModule.initFilters('filters-container', (activeFilters) => {
+            const { filteredEvents, filteredProjects } = filtersModule.filterItems(allListEvents, allListProjects, activeFilters);
+            cardsModule.renderList('list-container', filteredEvents, filteredProjects);
+            filtersModule.updateResultsCount(filteredEvents.length, filteredProjects.length);
+          });
+          listTabInitialized = true;
+        }
+      } 
+      
+      else if (viewId === 'view-add-event') {
+        if (formsModule && !eventFormRendered) {
+          formsModule.renderEventForm('event-form-container');
+          eventFormRendered = true;
+        }
+      } 
+      
+      else if (viewId === 'view-add-project') {
+        if (formsModule && !projectFormRendered) {
+          formsModule.renderProjectForm('project-form-container');
+          projectFormRendered = true;
+        }
+      } 
+      
+      else if (viewId === 'view-moderation') {
+        if (moderationModule && !moderationInitialized) {
+          moderationModule.initModerationPanel('moderation-container');
+          moderationInitialized = true;
+        }
+      }
+    }
+
+    // ── Moderatör Giriş İzleme Kalkanı ────────────────────────────────
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const q = query(collection(db, 'moderators'), where('email', '==', user.email));
+          const snap = await getDocs(q);
+          if (!snap.empty) {
+            modTab.style.display = 'inline-flex';
+          } else {
+            modTab.style.display = 'none';
+          }
+        } catch(e) {
+          modTab.style.display = 'none';
+        }
+      } else {
+        modTab.style.display = 'none';
+        if (activeTab === 'view-moderation') {
+          switchView('view-map');
+        }
+      }
+    });
+
+    // ── Uygulamayı Başlat ─────────────────────────────────────────────
+    async function initAtlasApp() {
+      try {
+        // 1. Anonim giriş yap
+        await signInAnonymously(auth);
+
+        // 2. Modülleri yükle
+        await loadModulesSilently();
+
+        // 3. Canlı istatistikleri çek
+        await loadLiveStats();
+
+        // 4. Varsayılan Harita görünümünü yükle
+        await handleViewActivation('view-map');
+
+      } catch (err) {
+        console.error('Atlas başlatılırken beklenmedik hata:', err);
+      } finally {
+        // Yükleme ekranını kapat
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('hidden');
+          setTimeout(() => overlay.remove(), 400);
+        }
+      }
+    }
+
+    initAtlasApp();
+  </script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+/**
+ * GençTek Atlas — Global Temel Stiller (style.css)
+ *
+ * Mavi-mor tonlarında, premium modern dark-theme öncelikli,
+ * responsive, kart animasyonlu ve prefers-color-scheme uyumlu stil dosyası.
+ */
+
+:root {
+  /* Renk Paleti & Değişkenler (Varsayılan: Dark Mode) */
+  --color-bg: #0b0b12;
+  --color-surface: #141420;
+  --color-surface-hover: #1b1b2d;
+  --color-text: #f3f4f6;
+  --color-text-muted: #9ca3af;
+  --color-text-dim: #6b7280;
+  
+  --renk-birincil: #6366f1; /* Indigo */
+  --renk-ikincil: #a855f7; /* Purple */
+  --sinir: rgba(255, 255, 255, 0.08);
+  --kart-golge: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --radius: 12px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --max-width: 1200px;
+}
+
+/* ── LIGHT MODE DESTEĞİ ────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg: #f5f6fa;
+    --color-surface: #ffffff;
+    --color-surface-hover: #fafafa;
+    --color-text: #1f2937;
+    --color-text-muted: #4b5563;
+    --color-text-dim: #9ca3af;
+    
+    --renk-birincil: #4f46e5;
+    --renk-ikincil: #8b5cf6;
+    --sinir: rgba(0, 0, 0, 0.08);
+    --kart-golge: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* ── GENEL RESET & TEMEL STİLLER ────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--renk-birincil);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--renk-ikincil);
+}
+
+/* ── UYGULAMA KABUĞU & NAVİGASYON (NAVBAR) ───────────────────────────── */
+
+.navbar {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--sinir);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--kart-golge);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 70px;
+}
+
+.nav-left .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, var(--renk-birincil) 0%, var(--renk-ikincil) 100%);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: 0 3px 8px rgba(99, 102, 241, 0.3);
+}
+
+.logo-text span {
+  background: linear-gradient(135deg, var(--renk-birincil) 0%, var(--renk-ikincil) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sekme Butonları */
+.nav-center {
+  display: flex;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--sinir);
+}
+
+@media (prefers-color-scheme: light) {
+  .nav-center {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.nav-tab:hover {
+  color: var(--color-text);
+}
+
+.nav-tab.active {
+  background-color: var(--color-surface);
+  color: var(--renk-birincil);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .nav-tab.active {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+#nav-mod-tab {
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+}
+
+#nav-mod-tab.active {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+/* Mobilde Navbar Sıkışması */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .nav-center {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .nav-tab {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ── CANLI İSTATİSTİK KARTLARI (STATS GRID) ─────────────────────────── */
+
+.stats-section {
+  max-width: var(--max-width);
+  margin: 24px auto 0;
+  padding: 0 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 992px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--sinir);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--kart-golge);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  background: rgba(99, 102, 241, 0.08);
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── ANA İÇERİK ALANI & SAYFA GÖRÜNÜMLERİ (VIEWS) ────────────────────── */
+
+.main-content-area {
+  flex: 1;
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.app-view {
+  display: none;
+  animation: appFadeIn 0.3s ease-out;
+}
+
+.app-view.active {
+  display: block;
+}
+
+@keyframes appFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── GÖRÜNÜM: HARİTA ───────────────────────────────────────────────── */
+
+#view-map {
+  background: var(--color-surface);
+  border: 1px solid var(--sinir);
+  border-radius: var(--radius);
+  height: 600px;
+  overflow: hidden;
+  box-shadow: var(--kart-golge);
+  position: relative;
+}
+
+#map-container {
+  width: 100%;
+  height: 100%;
+}
+
+.map-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+  color: var(--color-text-muted);
+}
+
+/* ── GÖRÜNÜM: LİSTE ────────────────────────────────────────────────── */
+
+#view-list {
+  display: none;
+}
+
+#view-list.active {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  #view-list.active {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ── FORM YÜKLEME ALANLARI ─────────────────────────────────────────── */
+
+.form-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ── SPINNER / YÜKLENİYOR (LOADING OVERLAY) ────────────────────────── */
+
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--sinir);
+  border-top-color: var(--renk-birincil);
+  border-radius: 50%;
+  animation: modGlobalSpin 0.8s linear infinite;
+}
+
+@keyframes modGlobalSpin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ── BİLEŞEN: KART HOVER GÖRSEL EFEKTLERİ (KARTLAR CSS FİLLERİNİ TAMAMLAR) ── */
+
+/* cards.css veya diğer harici stillerle uyumlu genel hover davranışları */
+.atlas-card {
+  transition: var(--transition) !important;
+}
+.atlas-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--kart-golge) !important;
+}
+
+/* ── FOOTER BÖLÜMÜ ─────────────────────────────────────────────────── */
+
+.app-footer {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--sinir);
+  padding: 30px 20px;
+  margin-top: auto;
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+}
+
+.footer-github-link:hover {
+  color: var(--color-text);
+}
+
+.footer-logo {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
