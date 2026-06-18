@@ -1,0 +1,146 @@
+[
+  {
+    "id": "oyun-tasarimi",
+    "name": "Oyun Tasarımı (EğitiJAM)",
+    "shortCode": "OT",
+    "color": "#E63946",
+    "icon": "device-gamepad-2",
+    "category": "Tasarım"
+  },
+  {
+    "id": "genc-sektor-bulusmalari",
+    "name": "G2S (Genç Sektör Buluşmaları)",
+    "shortCode": "G2S",
+    "color": "#1D3557",
+    "icon": "users-group",
+    "category": "Genel"
+  },
+  {
+    "id": "ritim-ai",
+    "name": "Ritim a.i. (Yapay Zeka Araçları)",
+    "shortCode": "RAI",
+    "color": "#457B9D",
+    "icon": "brain",
+    "category": "Teknoloji"
+  },
+  {
+    "id": "dijital-sanatlar",
+    "name": "Dijital Sanatlar",
+    "shortCode": "DS",
+    "color": "#F4A261",
+    "icon": "palette",
+    "category": "Tasarım"
+  },
+  {
+    "id": "bilisim-hukuku",
+    "name": "Bilişim Hukuku ve Güvenli İnternet",
+    "shortCode": "BH",
+    "color": "#2A9D8F",
+    "icon": "shield-lock",
+    "category": "Güvenlik"
+  },
+  {
+    "id": "tek-maraton",
+    "name": "Tek Maraton",
+    "shortCode": "TM",
+    "color": "#E76F51",
+    "icon": "run",
+    "category": "Spor"
+  },
+  {
+    "id": "robot-isletim-sistemi",
+    "name": "Robot İşletim Sistemi",
+    "shortCode": "ROS",
+    "color": "#6A0572",
+    "icon": "robot",
+    "category": "Teknoloji"
+  },
+  {
+    "id": "espor",
+    "name": "Espor",
+    "shortCode": "ES",
+    "color": "#FF006E",
+    "icon": "trophy",
+    "category": "Spor"
+  },
+  {
+    "id": "robot-futbol-ligi",
+    "name": "Robot Futbol Ligi",
+    "shortCode": "RFL",
+    "color": "#3A86FF",
+    "icon": "ball-football",
+    "category": "Spor"
+  },
+  {
+    "id": "iha",
+    "name": "İHA (İnsansız Hava Araçları)",
+    "shortCode": "IHA",
+    "color": "#8338EC",
+    "icon": "drone",
+    "category": "Teknoloji"
+  },
+  {
+    "id": "acik-kaynak",
+    "name": "Açık Kaynak",
+    "shortCode": "AK",
+    "color": "#06D6A0",
+    "icon": "brand-open-source",
+    "category": "Teknoloji"
+  },
+  {
+    "id": "e-ticaret",
+    "name": "E-Ticaret ve E-İhracat",
+    "shortCode": "ET",
+    "color": "#FFB703",
+    "icon": "shopping-cart",
+    "category": "Ticaret"
+  },
+  {
+    "id": "yapay-zeka",
+    "name": "Yapay Zeka",
+    "shortCode": "YZ",
+    "color": "#FB5607",
+    "icon": "cpu",
+    "category": "Teknoloji"
+  },
+  {
+    "id": "master-tek",
+    "name": "Master Tek",
+    "shortCode": "MT",
+    "color": "#023047",
+    "icon": "certificate",
+    "category": "Genel"
+  },
+  {
+    "id": "dijital-yuruyus-stem",
+    "name": "Dijital Yürüyüş STEM",
+    "shortCode": "DYS",
+    "color": "#70E000",
+    "icon": "walk",
+    "category": "Genel"
+  },
+  {
+    "id": "dijital-bagimlilik-alternatif",
+    "name": "Dijital Bağımlılıklara Sosyal Fiziksel Alternatif",
+    "shortCode": "DBA",
+    "color": "#D62828",
+    "icon": "heart-handshake",
+    "category": "Genel"
+  },
+  {
+    "id": "ctf",
+    "name": "CTF (Bayrağı Yakala)",
+    "shortCode": "CTF",
+    "color": "#7209B7",
+    "icon": "flag",
+    "category": "Güvenlik"
+  },
+  {
+    "id": "vibe-coding",
+    "name": "Vibe Coding",
+    "shortCode": "VC",
+    "color": "#00BBF9",
+    "icon": "code",
+    "category": "Teknoloji"
+  }
+]
