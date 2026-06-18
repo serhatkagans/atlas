@@ -1,0 +1,327 @@
+/**
+ * GençTek Atlas — Kart ve Listeleme Stilleri
+ * 
+ * Bu dosya; etkinlik ve proje kartlarını, kategori başlıklarını, 
+ * liste grid düzenini ve boş durum şablonlarını premium dark theme estetiğinde şekillendirir.
+ */
+
+:root {
+  /* GençTek Atlas Dark Theme Renkleri ve Değişkenleri */
+  --atlas-bg-card: #181824;
+  --atlas-bg-card-hover: #1e1e2f;
+  --atlas-border: rgba(255, 255, 255, 0.08);
+  --atlas-border-hover: rgba(255, 255, 255, 0.16);
+  --atlas-text-primary: #f3f4f6;
+  --atlas-text-secondary: #9ca3af;
+  --atlas-text-muted: #6b7280;
+  --atlas-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --atlas-shadow-hover: 0 12px 30px -4px rgba(0, 0, 0, 0.7);
+  --atlas-radius: 12px;
+  --atlas-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── LİSTE GRID & SECTİONS ─────────────────────────────────────────── */
+
+.card-section {
+  margin-bottom: 40px;
+  animation: atlasFadeIn 0.4s ease-out;
+}
+
+.card-section-header {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--atlas-border);
+  padding-bottom: 10px;
+}
+
+.card-section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--atlas-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.card-section-count {
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--atlas-text-secondary);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--atlas-border);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card-section {
+    margin-bottom: 30px;
+  }
+}
+
+/* ── ATLAS KART BİLEŞENİ (GENEL) ────────────────────────────────────── */
+
+.atlas-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--atlas-bg-card);
+  border: 1px solid var(--atlas-border);
+  border-radius: var(--atlas-radius);
+  overflow: hidden;
+  box-shadow: var(--atlas-shadow);
+  transition: var(--atlas-transition);
+  cursor: pointer;
+  height: 100%;
+}
+
+.atlas-card:hover,
+.atlas-card:focus-visible {
+  transform: translateY(-4px);
+  background: var(--atlas-bg-card-hover);
+  border-color: var(--card-accent, var(--atlas-border-hover));
+  box-shadow: var(--atlas-shadow-hover);
+  outline: none;
+}
+
+/* Erişilebilirlik için klavye odağı belirginleştirme */
+.atlas-card:focus-visible {
+  box-shadow: var(--atlas-shadow-hover), 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+.card-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--card-accent, #3a86ff);
+  z-index: 2;
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: #11111a;
+  border-bottom: 1px solid var(--atlas-border);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.atlas-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+/* ── KART METADATA & BADGES ────────────────────────────────────────── */
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.card-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.card-format {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--atlas-text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--atlas-border);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--atlas-text-primary);
+  margin: 0 0 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8em; /* 2 satır kadar yer kaplasın */
+}
+
+/* Proje Takım Adı */
+.card-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--atlas-text-secondary);
+  margin: 0 0 16px 0;
+}
+
+.card-team svg {
+  color: var(--card-accent);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+/* ── KART BİLGİ ALANLARI (INFO ITEMS) ───────────────────────────────── */
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto; /* İçeriği kartın altına iter */
+  margin-bottom: 16px;
+}
+
+.card-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--atlas-text-secondary);
+}
+
+.card-info-item svg {
+  color: var(--atlas-text-muted);
+  flex-shrink: 0;
+}
+
+/* ── KART AKSİYON BUTONLARI (PROJELER) ──────────────────────────────── */
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto; /* Butonları en alta hizalar */
+  padding-top: 12px;
+  border-top: 1px solid var(--atlas-border);
+}
+
+.card-link {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: var(--atlas-transition);
+  border: 1px solid var(--atlas-border);
+  text-align: center;
+}
+
+/* GitHub Butonu */
+.card-link--github {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--atlas-text-primary);
+}
+
+.card-link--github:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Demo Butonu */
+.card-link--demo {
+  background: var(--card-accent);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.card-link--demo:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px var(--card-accent);
+}
+
+.card-link svg {
+  flex-shrink: 0;
+}
+
+/* ── BOŞ DURUM (EMPTY STATE) ───────────────────────────────────────── */
+
+.card-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background: var(--atlas-bg-card);
+  border: 2px dashed var(--atlas-border);
+  border-radius: var(--atlas-radius);
+  animation: atlasFadeIn 0.3s ease-out;
+  margin: 20px 0;
+}
+
+.card-empty-state svg {
+  color: var(--atlas-text-secondary);
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.card-empty-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--atlas-text-primary);
+  margin: 0 0 6px 0;
+}
+
+.card-empty-sub {
+  font-size: 0.88rem;
+  color: var(--atlas-text-secondary);
+  margin: 0;
+  max-width: 320px;
+}
+
+/* ── ANIMASYONLAR ─────────────────────────────────────────────────── */
+
+@keyframes atlasFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
