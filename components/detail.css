@@ -1,0 +1,588 @@
+/**
+ * GençTek Atlas — Detay Sayfası Stilleri
+ * 
+ * Etkinlik ve Proje detay kayar panellerini/modallerini premium dark theme
+ * estetiği, yumuşak gölgeler, responsive yapılar ve yükleme animasyonlarıyla şekillendirir.
+ */
+
+/* ── MODAL ARKA PLAN ÖRTÜSÜ (OVERLAY) ────────────────────────────────── */
+
+.atlas-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 13, 21, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.atlas-detail-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── MODAL PANELİ (MASAÜSTÜ PANEL GÖRÜNÜMÜ) ───────────────────────────── */
+
+.atlas-detail-panel {
+  position: relative;
+  background: #151522;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  
+  /* Animasyon: Yukarıdan aşağı süzülme */
+  transform: translateY(-30px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.atlas-detail-overlay.open .atlas-detail-panel {
+  transform: translateY(0);
+}
+
+/* Slim Kaydırma Çubuğu */
+.atlas-detail-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.atlas-detail-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+.atlas-detail-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+/* ── KAPATMA BUTONU ─────────────────────────────────────────────────── */
+
+.detail-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+  padding: 0 0 2px 0;
+}
+
+.detail-close-btn:hover {
+  background: rgba(239, 68, 68, 0.8);
+  border-color: transparent;
+  transform: scale(1.05);
+}
+
+/* ── HERO BANNER & GÖRSEL ALANI ─────────────────────────────────────── */
+
+.detail-hero {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: #0d0d15;
+}
+
+.detail-hero-banner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.detail-hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero görseli yoksa çıkacak degrade */
+.detail-hero-banner:empty {
+  height: 100px; /* Görsel yoksa hero boyutunu küçült */
+}
+
+/* ── İÇERİK BÖLGESİ (BODY) ────────────────────────────────────────── */
+
+.detail-content {
+  padding: 28px;
+  color: #f3f4f6;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.detail-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+
+/* Etik Onay Rozetleri */
+.detail-badge--ethics {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ethics-approved {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+.ethics-pending {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #f59e0b !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.detail-format {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.detail-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+}
+
+.detail-team-name {
+  font-size: 0.95rem;
+  color: #9ca3af;
+  margin: 0 0 24px 0;
+}
+
+/* ── BİLGİ GRID YAPISI (İL, TARİH, KİŞİ) ────────────────────────────── */
+
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 580px) {
+  .detail-info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.detail-info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-icon {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+/* ── METİN BÖLÜMLERİ (AÇIKLAMA VB.) ──────────────────────────────────── */
+
+.detail-section {
+  margin-bottom: 28px;
+}
+
+.detail-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 6px;
+}
+
+.detail-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  margin: 0;
+}
+
+/* Katılımcı İller Rozet Grubu */
+.detail-cities-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail-city-badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #d1d5db;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* ── BAĞLANTI BUTONLARI GRİD (PROJE) ────────────────────────────────── */
+
+.detail-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.detail-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+/* GitHub */
+.detail-btn--github {
+  background: #24292e;
+  color: #fff;
+  border-color: rgba(255,255,255,0.05);
+}
+.detail-btn--github:hover {
+  background: #2f363d;
+}
+
+/* Demo */
+.detail-btn--demo {
+  background: var(--btn-color, #8338ec);
+  color: #fff;
+}
+.detail-btn--demo:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px var(--btn-color);
+}
+
+/* Prompt */
+.detail-btn--prompt {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.15);
+  color: #9ca3af;
+}
+.detail-btn--prompt:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+/* ── ANA ETKİNLİK BUTONU ────────────────────────────────────────────── */
+
+.detail-action-bar {
+  margin-bottom: 28px;
+}
+
+.detail-primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px;
+  background: var(--theme-accent, #3a86ff);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.detail-primary-btn:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ── İLGİLİ PROJELER (CROSS-NAVIGATION) ─────────────────────────────── */
+
+.related-projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.related-project-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 14px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.related-project-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+.related-card-accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.related-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.related-card-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.related-card-team {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.related-card-arrow {
+  color: #6b7280;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+}
+
+.related-project-card:hover .related-card-arrow {
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.related-empty-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.related-error-text {
+  font-size: 0.85rem;
+  color: #f43f5e;
+}
+
+.related-spinner-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.detail-mini-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-top-color: #9ca3af;
+  border-radius: 50%;
+  animation: modSpin 0.6s linear infinite;
+}
+
+/* ── HATA MODALI İÇERİĞİ ────────────────────────────────────────────── */
+
+.detail-error-content {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.detail-error-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.detail-error-content h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+
+.detail-error-content p {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin: 0 0 24px 0;
+}
+
+.detail-error-close-btn {
+  padding: 8px 20px;
+}
+
+/* ── LOADING SKELETON ANİMASYONU ────────────────────────────────────── */
+
+.skeleton-banner {
+  height: 200px;
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-body {
+  padding: 24px;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  margin-bottom: 14px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-line--badge {
+  width: 80px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.skeleton-line--title {
+  width: 70%;
+  height: 28px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.skeleton-line--text {
+  width: 100%;
+}
+
+/* Parlama efekti (Shimmer Animation) */
+.skeleton-banner::after,
+.skeleton-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 20%,
+    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0) 100-percent
+  );
+  transform: translateX(-100%);
+  animation: modShimmer 1.5s infinite;
+}
+
+@keyframes modShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ── MOBİL UYUMLULUK (DRAWER / FULL SCREEN MODAL) ─────────────────────── */
+
+@media (max-width: 640px) {
+  .atlas-detail-overlay {
+    align-items: flex-end; /* Mobilde diyalog alt kenardan açılsın */
+  }
+
+  .atlas-detail-panel {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0; /* Tam ekran olduğu için köşeleri düzle */
+    border: none;
+    
+    /* Animasyon: Aşağıdan yukarıya kayarak açılma */
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.94, 0.6, 1);
+  }
+
+  .atlas-detail-overlay.open .atlas-detail-panel {
+    transform: translateY(0);
+  }
+  
+  .detail-close-btn {
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .detail-hero {
+    height: 200px;
+  }
+
+  .detail-content {
+    padding: 20px;
+  }
+}
